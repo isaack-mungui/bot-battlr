@@ -18,6 +18,7 @@ function BotsPage() {
   }, [])
 
   function addBotToArmy(armyBot) {
+    console.log(armyBot);
     if (!botArmy.find((bot) => bot === armyBot)) {
       let selectBot = botCollection.find((bot) => bot === armyBot);
       setBotArmy([...botArmy, selectBot]);
@@ -25,6 +26,12 @@ function BotsPage() {
   }
 
   function deleteFromCollection(deletedBot) {
+    fetch(`http://localhost:8002/bots/${deletedBot.id}`, {
+      method: "DELETE",
+    })
+    // .then((r) => r.json())
+    // .then(() => deleteBot(bots))
+    console.log(deletedBot);
     const updatedCollection = botCollection.filter((bot) => bot.id !== deletedBot.id)
     setBotCollection(updatedCollection)
   }
@@ -32,7 +39,7 @@ function BotsPage() {
   return (
     <div>
       <YourBotArmy botArmy={botArmy} />
-      <BotCollection bots={botCollection} addBot={addBotToArmy} deleteBot={deleteFromCollection} />
+      <BotCollection bots={botCollection} deleteBot={deleteFromCollection} addBot={addBotToArmy} />
     </div>
   )
 }
